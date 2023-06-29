@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Brave money</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="favicon.png" />
     <style>
         body {
             background-color: #000;
@@ -52,24 +52,27 @@
         }
     </style>
     <script>
-        var websites = [
+        let websites = [
             "https://web.archive.org/",
             "https://www.yubico.com/",
             "https://uphold.com/",
             "https://www.binance.com/",
         ];
 
+        let tab = null;
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+
         function openRandomWebsite() {
-            var randomIndex = Math.floor(Math.random() * websites.length);
-            var randomWebsite = websites[randomIndex];
-            window.open(randomWebsite, "_blank");
+            if (tab) tab.close();
+            let randomIndex = Math.floor(Math.random() * websites.length);
+            let randomWebsite = websites[randomIndex];
+            tab = window.open(randomWebsite, "_blank");
         }
 
         function startTimer() {
-            var timer = document.getElementById("timer");
-            var hours = 0;
-            var minutes = 0;
-            var seconds = 0;
+            let timer = document.getElementById("timer");
 
             setInterval(function() {
                 seconds++;
@@ -94,6 +97,9 @@
                 // Ouvrir un nouvel onglet vers un site aléatoire toutes les heures
                 if (hours > 0 && minutes === 0 && seconds === 0) {
                     openRandomWebsite();
+                    hours = 0;
+                    minutes = 0;
+                    seconds = 0;
                 }
             }, 1000);
         }
@@ -103,14 +109,14 @@
         }
 
         function createParticles() {
-            var canvas = document.getElementById("particles");
-            var ctx = canvas.getContext("2d");
-            var particles = [];
-            var particleCount = 100;
-            var minSpeed = 1;
-            var maxSpeed = 3;
-            var minSize = 1;
-            var maxSize = 3;
+            let canvas = document.getElementById("particles");
+            let ctx = canvas.getContext("2d");
+            let particles = [];
+            let particleCount = 100;
+            let minSpeed = 1;
+            let maxSpeed = 3;
+            let minSize = 1;
+            let maxSize = 3;
 
             function Particle(x, y, speedX, speedY, size, color) {
                 this.x = x;
@@ -145,13 +151,13 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
 
-                for (var i = 0; i < particleCount; i++) {
-                    var x = Math.random() * canvas.width;
-                    var y = Math.random() * canvas.height;
-                    var speedX = (Math.random() - 0.5) * (maxSpeed - minSpeed);
-                    var speedY = (Math.random() - 0.5) * (maxSpeed - minSpeed);
-                    var size = Math.random() * (maxSize - minSize) + minSize;
-                    var color = randomColor();
+                for (let i = 0; i < particleCount; i++) {
+                    let x = Math.random() * canvas.width;
+                    let y = Math.random() * canvas.height;
+                    let speedX = (Math.random() - 0.5) * (maxSpeed - minSpeed);
+                    let speedY = (Math.random() - 0.5) * (maxSpeed - minSpeed);
+                    let size = Math.random() * (maxSize - minSize) + minSize;
+                    let color = randomColor();
 
                     particles.push(new Particle(x, y, speedX, speedY, size, color));
                 }
@@ -160,7 +166,7 @@
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                for (var i = 0; i < particles.length; i++) {
+                for (let i = 0; i < particles.length; i++) {
                     particles[i].update();
                     particles[i].draw();
                 }
@@ -169,10 +175,10 @@
             }
 
             function randomColor() {
-                var letters = "0123456789ABCDEF";
-                var color = "#";
+                let letters = "0123456789ABCDEF";
+                let color = "#";
 
-                for (var i = 0; i < 6; i++) {
+                for (let i = 0; i < 6; i++) {
                     color += letters[Math.floor(Math.random() * 16)];
                 }
 
